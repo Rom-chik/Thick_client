@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>admin Thick_client</title>
+</head>
+
+<body>
+
+<header>
+    <div class="header-center--admin">
+        <div>
+
+        </div>
+        <div  id="service-switch--admin" class="rounded-border--top pointer" >
+            <a href="client.html">Admin</a>
+        </div>
+    </div>
+</header>
+
+
+<div class="page-center">
+    <div class="page">
+        <div class="content--left color--admin rounded-border">
+
+            <div class="content">
+                <h2>Add certificate</h2>
+                <div class="form">
+                    <label for="name">name:</label><br>
+                    <input type="text" id="name"><br>
+                    <label for="surname">surname:</label><br>
+                    <input type="text" id="surname"><br>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email"><br>
+                    <label for="date">Date:</label><br>
+                    <input type="date" id="date" min="1914" max="2023"><br><br>
+
+                    <button id="addNewUserButton" class="pointer button--white">Add certificate</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="content--right color--admin rounded-border">
+            <div class="content">
+                <h2>Table</h2>
+                <table>
+                    <tr id="add-to-table">
+                        <th>id</th>
+                        <th>name</th>
+                        <th>surname</th>
+                        <th>email</th>
+                        <th>date</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<footer>
+    <div class="footer-center--admin">
+        <div id="footer-switch--admin" class="rounded-border--bottom">
+
+        </div>
+        <div>
+
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="frontEnd.js"></script>
+</body>
+
+</html>
