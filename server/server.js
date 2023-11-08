@@ -28,7 +28,7 @@ server.use('/',express.static('client'));
 
 
 server.get('/', function(req, res){
-    res.redirect(`http://localhost:${PORT}/admin.html`);
+    res.redirect(`http://localhost:${PORT}/index.html`);
 });
 
 

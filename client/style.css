@@ -8,8 +8,24 @@ body {
     text-align: left;
     background-image: url("images/background-colorful.png");
 }
+a{
+    color: white;
+}
+a:link {
+    text-decoration: none;
+}
 
-
+.lobby {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 45% 45%;
+    gap: 10%;
+}
+.lobby-content {
+    text-align: center;
+    padding: 30px;
+    border: 2px solid green;
+}
                                     /*header*/
 header {
     position: sticky;
