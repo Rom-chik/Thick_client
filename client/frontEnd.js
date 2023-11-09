@@ -1,6 +1,3 @@
-//frontEnd switches
-const switchToClient = document.getElementById('service-switch--admin');
-const switchToAdmin = document.getElementById('service-switch--client');
 //practical switches
 const addToTable = document.getElementById('add-to-table');
 const addNewUserButton = document.getElementById('addNewUserButton');
@@ -11,14 +8,6 @@ const email = document.getElementById('email');
 const date = document.getElementById('date');
 
 
-/*switchToClient.addEventListener('click', () => {
-    window.location.href = "http://localhost:3000/client.html";
-});
-switchToAdmin.addEventListener('click', () => {
-    window.location.href = "http://localhost:3000/admin.html";
-});*/
-
-
 document.addEventListener('DOMContentLoaded', async () => {
     const response = await axios.get('/getItems');
 
@@ -26,14 +15,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const currentID = response.data[i]._id;
         console.log(currentID);
-
+        //console.log(Date.parse(response.data[i].date));
 
         const newRow = `<tr>
                         <td>${response.data[i]._id}</td>
                         <td>${response.data[i].name}</td>
                         <td>${response.data[i].surname}</td>
                         <td>${response.data[i].email}</td>
-                        <td>${response.data[i].date}</td>
+                        <td>${new Date(response.data[i].date).toLocaleDateString('en-us', { year:"numeric", month:"short", day: "numeric"})}</td>
+                        <td><button id="edit--${i}" class="button--white--border" onclick="toggleEditUserForm('${currentID}')">Edit</button>
+                        <button id="delete--${i}" class="button--white--border" onclick="deleteUser('${currentID}')">Delete</button></td>
+                       
                     </tr>`
 
         addToTable.insertAdjacentHTML('afterend', newRow);

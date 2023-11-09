@@ -24,34 +24,47 @@ a:link {
 .lobby-content {
     text-align: center;
     padding: 30px;
-    border: 2px solid green;
+}
+.entry-link {
+    display: flex;
+}
+.lobby-logo {
+    padding-top: 100px;
+    display: flex;
+    font: 8rem 'AmstelvarAlpha', sans-serif;
+    font-style: oblique 23deg;
+    color: white;
+    align-items: center;
+    justify-content: center;
 }
                                     /*header*/
 header {
     position: sticky;
     top: 0;
 }
+.header-center--lobby {
+    padding: 0px 30px 0px 30px;
+    min-height: 5vh;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 20% 75%;
+    gap: 5%;
+}
 .header-center--client {
     padding: 0px 30px 0px 30px;
     min-height: 5vh;
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 25% 65%;
-    gap: 10%;
+    grid-template-columns: 20% 75%;
+    gap: 5%;
 }
 .header-center--admin {
     padding: 0px 30px 0px 30px;
     min-height: 5vh;
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 25% 65%;
-    gap: 10%;
-}
-#service-switch--client {
-    background-color: #107DAC;
-}
-#service-switch--admin {
-    background-color: #640000;
+    grid-template-columns: 20% 75%;
+    gap: 5%;
 }
 
 
@@ -64,18 +77,18 @@ header {
 .page {
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 25% 65%;
-    gap: 10%;
+    grid-template-columns: 20% 75%;
+    gap: 5%;
 }
 .content--left {
-    background-color: #1ebbd7;
+
 }
 .content--right {
-    background-color: #1ebbd7;
+
 }
 
 .content {
-    padding: 0px 30px 30px 20px;
+    padding: 20px 30px 30px 20px;
     /*border: 2px solid green;*/
 }
 
@@ -117,29 +130,38 @@ input {
 footer {
     min-height: 18vh;
 }
+.footer-center--lobby {
+    padding: 0px 30px 0px 30px;
+    min-height: 18vh;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 30% 65%;
+    gap: 5%;
+}
 .footer-center--client {
     padding: 0px 30px 0px 30px;
     min-height: 18vh;
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 25% 65%;
-    gap: 10%;
+    grid-template-columns: 20% 75%;
+    gap: 5%;
 }
 .footer-center--admin {
     padding: 0px 30px 0px 30px;
     min-height: 18vh;
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 25% 65%;
-    gap: 10%;
+    grid-template-columns: 20% 75%;
+    gap: 5%;
 }
-#footer-switch--client {
-    background-color: #107DAC;
+.footer-logo {
+    display: flex;
+    gap: 20px;
+    font: 2rem 'AmstelvarAlpha', sans-serif;
+    font-style: oblique 23deg;
+    color: white;
+    align-items: center;
 }
-#footer-switch--admin {
-    background-color: #640000;
-}
-
 
 
 .pointer:hover {
@@ -166,9 +188,23 @@ footer {
     background-color: #DFDFDF;
 }
 
+.button--white--border{
+    background: transparent;
+    border: 1px solid white;
+}
+.button--white--border:hover {
+    cursor: pointer;
+}
+
 .color--client {
     background-color: #1ebbd7;
 }
 .color--admin {
     background-color: #960000;
+}
+.color--2--client {
+    background-color: #107DAC;
+}
+.color--2--admin {
+    background-color: #640000;
 }
