@@ -1,8 +1,7 @@
-/*
 //practical switches
 const addToTable = document.getElementById('add-to-table');
 const addNewUserButton = document.getElementById('addNewUserButton');
-/!*const editUserButton = document.getElementById('editUserButton');*!/
+/*const editUserButton = document.getElementById('editUserButton');*/
 //schema inputs to database
 const name = document.getElementById('name');
 const surname = document.getElementById('surname');
@@ -11,11 +10,14 @@ const date = document.getElementById('date');
 
 
 const insertEditForm = document.getElementById('insert-edit-form');
-/!*const nameEdit = document.getElementById('name-edit');
+/*const nameEdit = document.getElementById('name-edit');
 const surnameEdit = document.getElementById('surname-edit');
 const emailEdit = document.getElementById('email-edit');
-const dateEdit = document.getElementById('date-edit');*!/
-/!*const editForm = document.getElementById(`edit-form`);*!/
+const dateEdit = document.getElementById('date-edit');*/
+/*const editForm = document.getElementById(`edit-form`);*/
+
+// init values
+let isEditFormShown = false;
 
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -35,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <td>${new Date(response.data[i].date).toLocaleDateString('en-us', { year:"numeric", month:"short", day: "numeric"})}</td>
                         <td><button id="edit--${i}" class="button--white--border" onclick="toggleEditUserForm('${currentID}')">Edit</button>
                         <button id="delete--${i}" class="button--white--border" onclick="deleteUser('${currentID}')">Delete</button></td>
-
+                       
                     </tr>`
 
         addToTable.insertAdjacentHTML('afterend', newRow);
@@ -72,9 +74,19 @@ addNewUserButton.addEventListener('click', async () => {
 });
 
 
-// Edit item
+// check if form is shown already
 const toggleEditUserForm = (id) => {
-    const editForm = `<div id="edit-form" class="content color--admin rounded-border hidden">
+    if(!isEditFormShown){
+        insertForm(id);
+        isEditFormShown = true;
+    } else {
+        removeForm();
+    }
+    console.log(id);
+};
+//insert edit form
+const insertForm = () => {
+    const editForm = `<div id="edit-form" class="content color--admin rounded-border">
                     <h2>Edit certificate</h2>
                     <div class="form">
                         <label for="name">name:</label><br>
@@ -85,23 +97,23 @@ const toggleEditUserForm = (id) => {
                         <input type="email" id="email-edit"><br>
                         <label for="date">Date:</label><br>
                         <input type="date" id="date-edit" min="1914" max="2023"><br><br>
-
+    
                         <button id="editUserButton" class="pointer button--white">Edit certificate</button>
                     </div>
                 </div>`
 
     insertEditForm.insertAdjacentHTML('afterend', editForm);
-
 };
-/!*const toggleEditUserForm = (id) => {
-    if(editForm.classList.contains('hidden')){
-        editForm.classList.remove('hidden');
-    } else{
-        editForm.classList.add('hidden');
-    }
-};*!/
+// remove edit form
+const removeForm = () => {
+    const element = document.getElementById('edit-form');
+    element.remove();
+    isEditFormShown = false;
+};
 
-/!*const editUser = async(id) => {
+
+
+/*const editUser = async(id) => {
     console.log(id);
     const item = {
         name: nameEdit.value,
@@ -119,7 +131,7 @@ const toggleEditUserForm = (id) => {
 
 editUserButton.addEventListener('click', () => {
     editUser();
-})*!/
+})*/
 
 
 //Delete item
@@ -133,4 +145,4 @@ const deleteUser = (id) => {
         .catch(error => console.error(error))
 
     document.location.reload();
-}*/
+}

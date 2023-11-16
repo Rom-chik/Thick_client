@@ -6,7 +6,8 @@ body {
     line-height: 1.5;
     color: black;
     text-align: left;
-    background-image: url("images/background-colorful.png");
+    /*background-image: url("images/background-colorful.png");*/
+
 }
 a{
     color: white;
@@ -33,7 +34,7 @@ a:link {
     display: flex;
     font: 8rem 'AmstelvarAlpha', sans-serif;
     font-style: oblique 23deg;
-    color: white;
+    color: black;
     align-items: center;
     justify-content: center;
 }
@@ -66,6 +67,10 @@ header {
     grid-template-columns: 20% 75%;
     gap: 5%;
 }
+.service-switch {
+    text-align: center;
+    color: white;
+}
 
 
                                     /*body content*/
@@ -81,7 +86,9 @@ header {
     gap: 5%;
 }
 .content--left {
-
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 .content--right {
 
@@ -156,10 +163,10 @@ footer {
 }
 .footer-logo {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     font: 2rem 'AmstelvarAlpha', sans-serif;
     font-style: oblique 23deg;
-    color: white;
+    color: black;
     align-items: center;
 }
 
@@ -176,6 +183,10 @@ footer {
 }
 .rounded-border--top {
     border-radius: 0px 0px 10px 10px;
+}
+
+.hidden {
+    display: none;
 }
 
 .button--white {
@@ -197,10 +208,13 @@ footer {
 }
 
 .color--client {
-    background-color: #1ebbd7;
+    /*background-color: #1ebbd7;*/
+    background-color: #C9F7FC;
 }
 .color--admin {
-    background-color: #960000;
+    /*background-color: #960000;*/
+    background-color: #bfbfbf;
+    /*background-color: #C59A9A;*/
 }
 .color--2--client {
     background-color: #107DAC;
