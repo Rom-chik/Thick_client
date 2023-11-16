@@ -1,25 +1,18 @@
 //practical switches
 const addToTable = document.getElementById('add-to-table');
 const addNewUserButton = document.getElementById('addNewUserButton');
-/*const editUserButton = document.getElementById('editUserButton');*/
+const insertEditForm = document.getElementById('insert-edit-form');
 //schema inputs to database
 const name = document.getElementById('name');
 const surname = document.getElementById('surname');
 const email = document.getElementById('email');
 const date = document.getElementById('date');
 
-
-const insertEditForm = document.getElementById('insert-edit-form');
-/*const nameEdit = document.getElementById('name-edit');
-const surnameEdit = document.getElementById('surname-edit');
-const emailEdit = document.getElementById('email-edit');
-const dateEdit = document.getElementById('date-edit');*/
-/*const editForm = document.getElementById(`edit-form`);*/
-
 // init values
 let isEditFormShown = false;
 
 
+//loading items to the page
 document.addEventListener('DOMContentLoaded', async () => {
     const response = await axios.get('/getItems');
 
@@ -35,8 +28,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <td>${response.data[i].surname}</td>
                         <td>${response.data[i].email}</td>
                         <td>${new Date(response.data[i].date).toLocaleDateString('en-us', { year:"numeric", month:"short", day: "numeric"})}</td>
-                        <td><button id="edit--${i}" class="button--white--border" onclick="toggleEditUserForm('${currentID}')">Edit</button>
-                        <button id="delete--${i}" class="button--white--border" onclick="deleteUser('${currentID}')">Delete</button></td>
+                        <td><button id="edit--${i}" class="button--white--border" onclick="toggleEditUserForm('${currentID}')"><img class="icon--small "src="images/icons8-edit-64.png" alt="edit"></button>
+                        <button id="delete--${i}" class="button--white--border" onclick="deleteUser('${currentID}')"><img class="icon--small "src="images/icons8-delete-50.png" alt="delete"></button></td>
                        
                     </tr>`
 
@@ -74,6 +67,30 @@ addNewUserButton.addEventListener('click', async () => {
 });
 
 
+// edit button
+const editUserForm = async(id) => {
+    console.log(`edited id: ${id}`);
+    const item = {
+        name: document.getElementById(`name--${id}`).value,
+        surname: document.getElementById(`surname--${id}`).value,
+        email: document.getElementById(`email--${id}`).value,
+        date: document.getElementById(`date--${id}`).value
+    }
+    await axios.put(`/editItem/${id}`, {
+        data: item
+    })
+        .catch(error => console.error(error));
+
+    document.location.reload();
+}
+
+// remove edit form
+const removeForm = () => {
+    const element = document.getElementById('edit-form');
+    element.remove();
+    isEditFormShown = false;
+};
+
 // check if form is shown already
 const toggleEditUserForm = (id) => {
     if(!isEditFormShown){
@@ -85,51 +102,29 @@ const toggleEditUserForm = (id) => {
     console.log(id);
 };
 //insert edit form
-const insertForm = () => {
+const insertForm = (id) => {
     const editForm = `<div id="edit-form" class="content color--admin rounded-border">
                     <h2>Edit certificate</h2>
                     <div class="form">
                         <label for="name">name:</label><br>
-                        <input type="text" id="name-edit"><br>
+                        <input type="text" id="name--${id}"><br>
                         <label for="surname">surname:</label><br>
-                        <input type="text" id="surname-edit"><br>
+                        <input type="text" id="surname--${id}"><br>
                         <label for="email">Email:</label><br>
-                        <input type="email" id="email-edit"><br>
+                        <input type="email" id="email--${id}"><br>
                         <label for="date">Date:</label><br>
-                        <input type="date" id="date-edit" min="1914" max="2023"><br><br>
+                        <input type="date" id="date--${id}" min="1914" max="2023"><br><br>
     
-                        <button id="editUserButton" class="pointer button--white">Edit certificate</button>
+                        <button id="editUserButton" class="pointer button--white" onclick="editUserForm('${id}')">Edit certificate</button>
                     </div>
                 </div>`
 
     insertEditForm.insertAdjacentHTML('afterend', editForm);
 };
-// remove edit form
-const removeForm = () => {
-    const element = document.getElementById('edit-form');
-    element.remove();
-    isEditFormShown = false;
-};
 
 
 
-/*const editUser = async(id) => {
-    console.log(id);
-    const item = {
-        name: nameEdit.value,
-        surname: surnameEdit.value,
-        email: emailEdit.value,
-        date: dateEdit.value
-    }
-    await axios.put(`/editItem/${id}`, {
-        data: item
-    })
-        .catch(error => console.error(error));
-
-    document.location.reload();
-};
-
-editUserButton.addEventListener('click', () => {
+/*editUserButton.addEventListener('click', () => {
     editUser();
 })*/
 

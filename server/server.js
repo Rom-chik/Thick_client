@@ -66,9 +66,9 @@ server.post('/addItem', async(req, res) => {
 server.put('/editItem/:id', async(req, res) => {
     try {
         const itemId = req.params.id;
-        //console.log(req.params.id);
-        const items = await itemModel.findOneAndReplace({_id: itemId}, req.body, {new: true});
+        const items = await itemModel.findOneAndReplace({_id: itemId}, req.body.data, {new: true});
         res.json({items}); //res.status(200) треба ??
+        console.log(items);
     }catch (error){
         console.log(error.message);
         res.status(500).json({message: error.message})

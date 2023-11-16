@@ -10,6 +10,7 @@ const date = document.getElementById('date');
 
 
 
+//loading items to the page
 document.addEventListener('DOMContentLoaded', async () => {
     const response = await axios.get('/getItems');
 

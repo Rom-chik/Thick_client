@@ -93,12 +93,10 @@ header {
 .content--right {
 
 }
-
 .content {
     padding: 20px 30px 30px 20px;
     /*border: 2px solid green;*/
 }
-
 
 table {
     font-family: arial, sans-serif;
@@ -171,10 +169,7 @@ footer {
 }
 
 
-.pointer:hover {
-    cursor: pointer;
-}
-
+                                    /*wide spectrum of styles*/
 .rounded-border {
     border-radius: 10px;
 }
@@ -183,6 +178,10 @@ footer {
 }
 .rounded-border--top {
     border-radius: 0px 0px 10px 10px;
+}
+
+.pointer:hover {
+    cursor: pointer;
 }
 
 .hidden {
@@ -207,6 +206,7 @@ footer {
     cursor: pointer;
 }
 
+
 .color--client {
     /*background-color: #1ebbd7;*/
     background-color: #C9F7FC;
@@ -221,4 +221,9 @@ footer {
 }
 .color--2--admin {
     background-color: #640000;
+}
+
+
+.icon--small {
+    height: 24px;
 }
