@@ -167,6 +167,15 @@ footer {
     color: black;
     align-items: center;
 }
+.service-switch--footer {
+    text-align: center;
+    color: white;
+    padding: 30px;
+}
+.birthday-alert {
+    display: flex;
+    color: white;
+}
 
 
                                     /*wide spectrum of styles*/
@@ -205,6 +214,11 @@ footer {
 .button--white--border:hover {
     cursor: pointer;
 }
+.button--noborder {
+    background: transparent;
+    cursor: pointer;
+    border: 0px;
+}
 
 
 .color--client {
@@ -226,4 +240,10 @@ footer {
 
 .icon--small {
     height: 24px;
+}
+.icon--mail{
+    height: 24px;
+}
+.icon--mail:hover {
+    height: 30px;
 }

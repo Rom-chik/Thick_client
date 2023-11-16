@@ -12,10 +12,9 @@ const date = document.getElementById('date');
 let isEditFormShown = false;
 
 
-//loading items to the page
-document.addEventListener('DOMContentLoaded', async () => {
-    const response = await axios.get('/getItems');
 
+//insert items to the page
+const insertItemsWhenPageIsLoaded = (response) => {
     for (let i = 0; i <= response.data.length - 1; ++i){
 
         const currentID = response.data[i]._id;
@@ -35,6 +34,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         addToTable.insertAdjacentHTML('afterend', newRow);
     }
+};
+
+//when page is loaded
+document.addEventListener('DOMContentLoaded', async () => {
+    const response = await axios.get('/getItems');
+
+    insertItemsWhenPageIsLoaded(response);
 });
 
 

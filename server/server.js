@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const server= express();
 const itemModel = require('./schemaDB');
 const bodyParser = require('body-parser');
-//const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 
 PORT = 3000;
@@ -38,6 +39,7 @@ server.get('/getItems', async(req, res) => {
     try {
         const items = await itemModel.find({});
         res.status(200).json(items)
+        ifBirthday(items);
         //console.log(`items log: ${items}`) //console log our database objects
     }
     catch (error) {
@@ -88,22 +90,38 @@ server.delete('/deleteItem/:id', async(req, res) => {
     }
 });
 
-/*
+
+// Business function (checks if its client's birthday)
+const ifBirthday = (items) => {
+    /*console.log(items);*/
+    //--today date generator--
+    const todayDate = new Date().toLocaleDateString('en-us', { year:"numeric", month:"short", day: "numeric"})
+
+    for (let i = 0; i <= items.length - 1; ++i) {
+        //--current date from database looped obj--
+        const currentDateOfBirth = new Date(items[i].date).toLocaleDateString('en-us', { year:"numeric", month:"short", day: "numeric"});
+        if(todayDate === currentDateOfBirth) {
+            console.log(`it's ${items[i].name} ${items[i].surname} Birthday today!`);
+        }
+    }
+};
+//send congratulation message via email
 server.post('/birthday', async(req, res) => {
+    console.log(req.body.data);
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
         secure: false,
         auth: {
-            user: "",//testEmailAccount.user,
-            pass: ""//testEmailAccount.pass
+            user: process.env.EMAIL_NAME,//testEmailAccount.user,
+            pass: process.env.EMAIL_PASSWORD//testEmailAccount.pass
         }
     });
     //message  data
     let result = req.body.data;
 
     transporter.sendMail(result).then((info) => {
-        return res.status(201).json({message: "you must have got happy birthday message",
+        return res.status(201).json({message: "Message was sent, your app is working great",
             info: info.messageId,
             preview: nodemailer.getTestMessageUrl(info)
         })
@@ -111,4 +129,4 @@ server.post('/birthday', async(req, res) => {
         return res.status(500).json({error})
     })
 
-});*/
+});
