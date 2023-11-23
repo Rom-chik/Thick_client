@@ -7,7 +7,6 @@ const name = document.getElementById('name');
 const surname = document.getElementById('surname');
 const email = document.getElementById('email');
 const date = document.getElementById('date');
-//const socket = io();
 
 
 
@@ -15,7 +14,7 @@ const sendBirthdayMail = async(id) => {
     const message = {
         from: '', //sender email
         to: "",  //receiver email
-        subject: "simulation of congratulation proj",
+        subject: "simulation of congratulation proj2",
         text: "Happy Birthday! Only today get a discount 25% on our service!"
     }
     console.log(message);
@@ -70,25 +69,18 @@ const app = Vue.createApp({
         formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" });
+        },
+        pollData() {
+            setInterval(() => {
+                this.fetchItems();
+            }, 5000); // Poll every 5000 milliseconds (5 seconds)
         }
     },
+
     mounted() {
         this.fetchItems();
-    },
-
-    /*created() {
-        this.fetchItems(); // Initial fetch
-
-        // Setup WebSocket connection
-        this.socket = io();
-
-        // Listen for updates from the server
-        this.socket.on('itemUpdate', (updatedItem) => {
-            // Logic to handle the updated item
-            // For example, refresh the items list or update a specific item
-            this.fetchItems(); // Re-fetch items if necessary
-        });
-    }*/
+        this.pollData();
+    }
 });
 app.mount('#app');
 

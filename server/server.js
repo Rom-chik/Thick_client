@@ -4,12 +4,9 @@ const itemModel = require('./schemaDB');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv').config();
-const socketIo = require('socket.io');
-//const http = require('http');
 
 const app= express();
-//const server = http.createServer(app);
-//const io = socketIo(server);
+
 
 PORT = 3000;
 app.use(express.json());
@@ -35,16 +32,6 @@ app.use('/',express.static('client'));
 app.get('/', function(req, res){
     res.redirect(`http://localhost:${PORT}/index.html`);
 });
-
-
-// Socket.IO connection handler
-/*io.on('connection', (socket) => {
-    console.log('A user connected');
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
-});*/
 
 
 //get data from database
@@ -83,8 +70,6 @@ app.put('/editItem/:id', async(req, res) => {
         const itemId = req.params.id;
         const updatedItem = await itemModel.findOneAndReplace({_id: itemId}, req.body.data, {new: true});
         res.json({updatedItem}); //res.status(200) треба ??
-        // Emit an update
-        io.emit('itemUpdated', updatedItem);
         console.log(updatedItem);
     }catch (error){
         console.log(error.message);
