@@ -31,7 +31,7 @@ const insertBirthdayAlert = (items) => {
     const birthdayAlert = `<div class="birthday-alert">
                 It's ${items.name} ${items.surname} Birthday today!  Send greetings via:
                 <button id="send-greetings--${currentID}" class="button--noborder" ><img class="icon--mail" src="images/icons8-mail-50.png" alt="send mail" onclick="sendBirthdayMail('${currentID}')"></button>
-                                          </div>`
+                                  </div>`
 
     insertBirthdayNot.insertAdjacentHTML('afterend', birthdayAlert);
 }
@@ -45,35 +45,45 @@ const ifBirthday = (items) => {
         const currentDateOfBirth = new Date(items[i].date).toLocaleDateString('en-us', { year:"numeric", month:"short", day: "numeric"});
         if(todayDate === currentDateOfBirth) {
             insertBirthdayAlert(items[i]);
+        } else {
+            //insertNoBirthdayAlert();
         }
     }
 };
 
-//insert items to the page
-const insertItemsWhenPageIsLoaded = (response) => {
-    for (let i = 0; i <= response.data.length - 1; ++i){
-
-        const currentID = response.data[i]._id;
-        console.log(currentID);
-
-        const newRow = `<tr>
-                        <td>${response.data[i]._id}</td>
-                        <td>${response.data[i].name}</td>
-                        <td>${response.data[i].surname}</td>
-                        <td>${response.data[i].email}</td>
-                        <td>${new Date(response.data[i].date).toLocaleDateString('en-us', { year:"numeric", month:"short", day: "numeric"})}</td>
-                    </tr>`
-
-        addToTable.insertAdjacentHTML('afterend', newRow);
+//insert items to the page with VUE
+const app = Vue.createApp({
+    data() {
+        return {
+            items: []
+        };
+    },
+    methods: {
+        async fetchItems() {
+            try {
+                const response = await axios.get('/getItems');
+                this.items = response.data;
+            } catch (error) {
+                console.error('Error fetching items:', error);
+            }
+        },
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" });
+        }
+    },
+    mounted() {
+        this.fetchItems();
     }
-};
+});
+app.mount('#app');
 
 //when page is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     const response = await axios.get('/getItems');
     const items = response.data;
 
-    insertItemsWhenPageIsLoaded(response);
+    //insertItemsWhenPageIsLoaded(response);
     ifBirthday(items);
 });
 

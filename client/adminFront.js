@@ -13,35 +13,54 @@ let isEditFormShown = false;
 
 
 
-//insert items to the page
-const insertItemsWhenPageIsLoaded = (response) => {
-    for (let i = 0; i <= response.data.length - 1; ++i){
+//insert items to the page, delete, edit items with VUE
+const app = Vue.createApp({
+    data() {
+        return {
+            items: []
+        };
+    },
+    methods: {
+        async fetchItems() {
+            try {
+                const response = await axios.get('/getItems');
+                this.items = response.data;
+            } catch (error) {
+                console.error('Error fetching items:', error);
+            }
+        },
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" });
+        },
+        toggleEditUserForm(id) {
+            // Implement the logic to toggle the edit user form
+            if(!isEditFormShown){
+                insertForm(id);
+                isEditFormShown = true;
+            } else {
+                removeForm();
+            }
+            console.log('Edit:', id);
+        },
+        deleteUser(id) {
+            // Implement the logic to delete the user
+            axios
+                .delete(`/deleteItem/${id}`)
+                .then(response => {
+                    console.log(`user is removed`, id)
+                })
+                .catch(error => console.error(error))
 
-        const currentID = response.data[i]._id;
-        console.log(currentID);
-        //console.log(Date.parse(response.data[i].date));
-
-        const newRow = `<tr>
-                        <td>${response.data[i]._id}</td>
-                        <td>${response.data[i].name}</td>
-                        <td>${response.data[i].surname}</td>
-                        <td>${response.data[i].email}</td>
-                        <td>${new Date(response.data[i].date).toLocaleDateString('en-us', { year:"numeric", month:"short", day: "numeric"})}</td>
-                        <td><button id="edit--${i}" class="button--white--border" onclick="toggleEditUserForm('${currentID}')"><img class="icon--small "src="images/icons8-edit-64.png" alt="edit"></button>
-                        <button id="delete--${i}" class="button--white--border" onclick="deleteUser('${currentID}')"><img class="icon--small "src="images/icons8-delete-50.png" alt="delete"></button></td>
-                       
-                    </tr>`
-
-        addToTable.insertAdjacentHTML('afterend', newRow);
+            document.location.reload();
+            console.log('Delete:', id);
+        }
+    },
+    mounted() {
+        this.fetchItems();
     }
-};
-
-//when page is loaded
-document.addEventListener('DOMContentLoaded', async () => {
-    const response = await axios.get('/getItems');
-
-    insertItemsWhenPageIsLoaded(response);
 });
+app.mount('#app');
 
 
 const checkIfEmail = (input) => {
@@ -97,16 +116,6 @@ const removeForm = () => {
     isEditFormShown = false;
 };
 
-// check if form is shown already
-const toggleEditUserForm = (id) => {
-    if(!isEditFormShown){
-        insertForm(id);
-        isEditFormShown = true;
-    } else {
-        removeForm();
-    }
-    console.log(id);
-};
 //insert edit form
 const insertForm = (id) => {
     const editForm = `<div id="edit-form" class="content color--admin rounded-border">
@@ -127,23 +136,3 @@ const insertForm = (id) => {
 
     insertEditForm.insertAdjacentHTML('afterend', editForm);
 };
-
-
-
-/*editUserButton.addEventListener('click', () => {
-    editUser();
-})*/
-
-
-//Delete item
-const deleteUser = (id) => {
-    console.log(`deleted: ${id}`)
-    axios
-        .delete(`/deleteItem/${id}`)
-        .then(response => {
-            console.log(`user is removed`, id)
-        })
-        .catch(error => console.error(error))
-
-    document.location.reload();
-}

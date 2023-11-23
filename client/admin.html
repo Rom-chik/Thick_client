@@ -47,7 +47,7 @@
         </div>
 
         <div class="content--right">
-            <div class="content color--admin rounded-border">
+            <div id="app" class="content color--admin rounded-border">
                 <h2>Table</h2>
                 <table>
                     <tr id="add-to-table">
@@ -57,6 +57,21 @@
                         <th>email</th>
                         <th>date</th>
                         <th>Edit/delete</th>
+                    </tr>
+                    <tr v-for="(item, index) in items" :key="item._id">
+                        <td>{{ item._id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.surname }}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ formatDate(item.date) }}</td>
+                        <td>
+                            <button :id="'edit--' + index" class="button--white--border" @click="toggleEditUserForm(item._id)">
+                                <img class="icon--small" src="images/icons8-edit-64.png" alt="edit">
+                            </button>
+                            <button :id="'delete--' + index" class="button--white--border" @click="deleteUser(item._id)">
+                                <img class="icon--small" src="images/icons8-delete-50.png" alt="delete">
+                            </button>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -77,6 +92,7 @@
     </div>
 </footer>
 
+<script src="https://unpkg.com/vue@next"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="adminFront.js"></script>
 </body>

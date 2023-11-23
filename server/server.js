@@ -4,7 +4,7 @@ const server= express();
 const itemModel = require('./schemaDB');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-require('dotenv').config();
+const dotenv = require('dotenv').config();
 
 
 PORT = 3000;
@@ -105,6 +105,8 @@ const ifBirthday = (items) => {
         }
     }
 };
+
+
 //send congratulation message via email
 server.post('/birthday', async(req, res) => {
     console.log(req.body.data);
