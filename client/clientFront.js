@@ -7,7 +7,7 @@ const name = document.getElementById('name');
 const surname = document.getElementById('surname');
 const email = document.getElementById('email');
 const date = document.getElementById('date');
-
+//const socket = io();
 
 
 
@@ -74,7 +74,21 @@ const app = Vue.createApp({
     },
     mounted() {
         this.fetchItems();
-    }
+    },
+
+    /*created() {
+        this.fetchItems(); // Initial fetch
+
+        // Setup WebSocket connection
+        this.socket = io();
+
+        // Listen for updates from the server
+        this.socket.on('itemUpdate', (updatedItem) => {
+            // Logic to handle the updated item
+            // For example, refresh the items list or update a specific item
+            this.fetchItems(); // Re-fetch items if necessary
+        });
+    }*/
 });
 app.mount('#app');
 

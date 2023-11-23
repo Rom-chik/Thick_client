@@ -1,14 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const server= express();
 const itemModel = require('./schemaDB');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv').config();
+const socketIo = require('socket.io');
+//const http = require('http');
 
+const app= express();
+//const server = http.createServer(app);
+//const io = socketIo(server);
 
 PORT = 3000;
-server.use(express.json());
+app.use(express.json());
 
 //mongodb connection
 mongoose.connect("mongodb://localhost:27017/RESTfull")
@@ -18,24 +22,33 @@ mongoose.connect("mongodb://localhost:27017/RESTfull")
     console.log(error)
 });
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
 
-server.use(bodyParser.json());
-server.use(express.static(__dirname));
-server.use('/',express.static('client'));
+app.use(bodyParser.json());
+app.use(express.static(__dirname));
+app.use('/',express.static('client'));
 
 
-server.get('/', function(req, res){
+app.get('/', function(req, res){
     res.redirect(`http://localhost:${PORT}/index.html`);
 });
 
 
+// Socket.IO connection handler
+/*io.on('connection', (socket) => {
+    console.log('A user connected');
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
+});*/
+
 
 //get data from database
-server.get('/getItems', async(req, res) => {
+app.get('/getItems', async(req, res) => {
     try {
         const items = await itemModel.find({});
         res.status(200).json(items)
@@ -49,7 +62,7 @@ server.get('/getItems', async(req, res) => {
 
 
 //send data to database
-server.post('/addItem', async(req, res) => {
+app.post('/addItem', async(req, res) => {
     try {
         console.log(req.body);
         //console.log(req.body.data);
@@ -65,12 +78,14 @@ server.post('/addItem', async(req, res) => {
 
 
 //edit item data
-server.put('/editItem/:id', async(req, res) => {
+app.put('/editItem/:id', async(req, res) => {
     try {
         const itemId = req.params.id;
-        const items = await itemModel.findOneAndReplace({_id: itemId}, req.body.data, {new: true});
-        res.json({items}); //res.status(200) треба ??
-        console.log(items);
+        const updatedItem = await itemModel.findOneAndReplace({_id: itemId}, req.body.data, {new: true});
+        res.json({updatedItem}); //res.status(200) треба ??
+        // Emit an update
+        io.emit('itemUpdated', updatedItem);
+        console.log(updatedItem);
     }catch (error){
         console.log(error.message);
         res.status(500).json({message: error.message})
@@ -79,7 +94,7 @@ server.put('/editItem/:id', async(req, res) => {
 
 
 //delete item
-server.delete('/deleteItem/:id', async(req, res) => {
+app.delete('/deleteItem/:id', async(req, res) => {
     try {
         const itemID = req.params.id;
         await itemModel.deleteOne({_id: itemID});
@@ -108,7 +123,7 @@ const ifBirthday = (items) => {
 
 
 //send congratulation message via email
-server.post('/birthday', async(req, res) => {
+app.post('/birthday', async(req, res) => {
     console.log(req.body.data);
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
